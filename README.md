@@ -1,7 +1,7 @@
 # Keycloak Provider for OAuth 2.0 Client
-[![Latest Version](https://img.shields.io/github/release/ichti-git/oauth2-keycloak.svg?style=flat-square)](https://github.com/stevenmaguire/oauth2-keycloak/releases)
+[![Latest Version](https://img.shields.io/github/release/ichti-git/oauth2-keycloak.svg?style=flat-square)](https://github.com/ichti-git/oauth2-keycloak/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/ichti/oauth2-keycloak/master.svg?style=flat-square)](https://travis-ci.org/ichti/oauth2-keycloak)
+[![Build Status](https://img.shields.io/travis/ichti-git/oauth2-keycloak/master.svg?style=flat-square)](https://travis-ci.org/ichti-git/oauth2-keycloak)
 
 This package provides Keycloak OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
 
