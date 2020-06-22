@@ -8,12 +8,14 @@
 
 This package provides Keycloak OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
 
+Original package: [stevenmaguire - Keycloak Provider for OAuth 2.0 Client](https://github.com/stevenmaguire/oauth2-keycloak).
+
 ## Installation
 
 To install, use composer:
 
 ```
-composer require stevenmaguire/oauth2-keycloak
+composer require ichti/oauth2-keycloak
 ```
 
 ## Usage
