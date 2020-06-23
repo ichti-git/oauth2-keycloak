@@ -190,16 +190,18 @@ namespace Stevenmaguire\OAuth2\Client\Test\Provider
         public function testUserData()
         {
             $userId = rand(1000, 9999);
-            $name = uniqid();
-            $nickname = uniqid();
+            $username = uniqid();
             $email = uniqid();
+            $firstname = uniqid();
+            $lastname = uniqid();
+            $name = $firstname . ' ' . $lastname;
 
             $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
             $postResponse->shouldReceive('getBody')->andReturn('access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&otherKey={1234}');
             $postResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
 
             $userResponse = m::mock('Psr\Http\Message\ResponseInterface');
-            $userResponse->shouldReceive('getBody')->andReturn('{"sub": ' . $userId . ', "name": "' . $name . '", "email": "' . $email . '"}');
+            $userResponse->shouldReceive('getBody')->andReturn('{"sub": ' . $userId . ', "name": "' . $name . '", "email": "' . $email . '", "given_name": "' . $firstname . '", "family_name": "' . $lastname . '", "preferred_username": "' . $username . '"}');
             $userResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
 
             $client = m::mock('GuzzleHttp\ClientInterface');
@@ -213,18 +215,29 @@ namespace Stevenmaguire\OAuth2\Client\Test\Provider
 
             $this->assertEquals($userId, $user->getId());
             $this->assertEquals($userId, $user->toArray()['sub']);
+            $this->assertEquals($name, $user->getFullName());
             $this->assertEquals($name, $user->getName());
             $this->assertEquals($name, $user->toArray()['name']);
+            $this->assertEquals($firstname, $user->getFirstName());
+            $this->assertEquals($firstname, $user->getGivenName());
+            $this->assertEquals($firstname, $user->toArray()['given_name']);
+            $this->assertEquals($lastname, $user->getLastName());
+            $this->assertEquals($lastname, $user->getFamilyName());
+            $this->assertEquals($lastname, $user->toArray()['family_name']);
             $this->assertEquals($email, $user->getEmail());
             $this->assertEquals($email, $user->toArray()['email']);
+            $this->assertEquals($username, $user->getUsername());
+            $this->assertEquals($username, $user->toArray()['preferred_username']);
         }
 
         public function testUserDataWithEncryption()
         {
             $userId = rand(1000, 9999);
-            $name = uniqid();
-            $nickname = uniqid();
+            $username = uniqid();
             $email = uniqid();
+            $firstname = uniqid();
+            $lastname = uniqid();
+            $name = $firstname . ' ' . $lastname;;
             $jwt = uniqid();
             $algorithm = uniqid();
             $key = uniqid();
@@ -244,6 +257,9 @@ namespace Stevenmaguire\OAuth2\Client\Test\Provider
                 'sub' => $userId,
                 'email' => $email,
                 'name' => $name,
+                'given_name' => $firstname,
+                'family_name' => $lastname,
+                'preferred_username' => $username,
             ]);
 
             $client = m::mock('GuzzleHttp\ClientInterface');
@@ -257,12 +273,22 @@ namespace Stevenmaguire\OAuth2\Client\Test\Provider
                 ->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
             $user = $this->provider->getResourceOwner($token);
 
+
             $this->assertEquals($userId, $user->getId());
             $this->assertEquals($userId, $user->toArray()['sub']);
+            $this->assertEquals($name, $user->getFullName());
             $this->assertEquals($name, $user->getName());
             $this->assertEquals($name, $user->toArray()['name']);
+            $this->assertEquals($firstname, $user->getFirstName());
+            $this->assertEquals($firstname, $user->getGivenName());
+            $this->assertEquals($firstname, $user->toArray()['given_name']);
+            $this->assertEquals($lastname, $user->getLastName());
+            $this->assertEquals($lastname, $user->getFamilyName());
+            $this->assertEquals($lastname, $user->toArray()['family_name']);
             $this->assertEquals($email, $user->getEmail());
             $this->assertEquals($email, $user->toArray()['email']);
+            $this->assertEquals($username, $user->getUsername());
+            $this->assertEquals($username, $user->toArray()['preferred_username']);
         }
 
         /**
