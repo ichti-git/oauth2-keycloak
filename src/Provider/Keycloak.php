@@ -31,6 +31,11 @@ class Keycloak extends AbstractProvider
     public $realm = null;
 
     /**
+     * @var array|null
+     */
+    private $scopes = null;
+
+    /**
      * Encryption algorithm.
      *
      * You must specify supported algorithms for your application. See
@@ -65,6 +70,14 @@ class Keycloak extends AbstractProvider
         if (isset($options['encryptionKeyPath'])) {
             $this->setEncryptionKeyPath($options['encryptionKeyPath']);
             unset($options['encryptionKeyPath']);
+        }
+
+        if (isset($options['scopes'])) {
+            $this->setDefaultScopes($options['scopes']);
+            unset($options['scopes']);
+        }
+        else {
+            $this->scopes = ['profile', 'email'];
         }
         parent::__construct($options, $collaborators);
     }
@@ -177,7 +190,18 @@ class Keycloak extends AbstractProvider
      */
     protected function getDefaultScopes()
     {
-        return ['profile', 'email'];
+        return $this->scopes;
+    }
+
+    /**
+     * Set the default scopes used by this provider.
+     *
+     * @param array $scope Array of scopes
+     * @return void
+     */
+    public function setDefaultScopes($scopes)
+    {
+        $this->scopes = $scopes;
     }
 
     /**
